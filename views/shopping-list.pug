@@ -11,6 +11,12 @@ block content
             label(for='item_name') Item:
             input#item_name.form_control(type='text' placeholder='Item name' name='item_name' required='true' )
         button.btn.btn-primary(type='submit') Submit
+
+    hr
+    ul
+        each item in item_list
+            li
+                p #{item.name}
     if errors
         ul
             for error in errors

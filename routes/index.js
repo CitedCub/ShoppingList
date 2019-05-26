@@ -12,9 +12,7 @@ router.get('/', function (req, res, next) {
 });
 
 // GET request for shopping-list app
-router.get('/shopping-list', function (req, res, next) {
-  res.render('shopping-list.pug', { title: 'Shopping List' });
-})
+router.get('/shopping-list', item_controller.shoppinglist_get);
 
 // GET request for a list of all items.
 router.get('/items', item_controller.item_list);
