@@ -14,6 +14,9 @@ router.get('/', function (req, res, next) {
 // GET request for shopping-list app
 router.get('/shopping-list', item_controller.shoppinglist_get);
 
+// POST request for shopping-list app
+router.post('/shopping-list', item_controller.shoppinglist_post);
+
 // GET request for a list of all items.
 router.get('/items', item_controller.item_list);
 
