@@ -25,6 +25,7 @@ exports.shoppinglist_get = function (req, res, next) {
 // Handle item create on POST
 exports.shoppinglist_post = [
 
+
     // Validate fields
     body('item_name', 'Item name must be specified').isLength({ min: 1 }).trim(),
 
@@ -68,3 +69,28 @@ exports.shoppinglist_post = [
         return;
     },
 ];
+
+exports.items_get = function (req, res, next) {
+    Item.find().exec(function (err, items) {
+        if (err) { return next(err); }
+        res.send(items);
+    })
+}
+
+exports.item_put = function (req, res, next) {
+
+    // Create an item instance object with old id
+    var item = new Item(
+        {
+            name: req.body.name,
+            status: req.body.status == 'Available' ? 'Taken' : 'Available',
+            description: req.body.description,
+            _id: req.params.id // This is required, or a new ID will be assigned!
+        });
+
+    console.log(item);
+    Item.findByIdAndUpdate(req.params.id, item, {}, function (err, theitem) {
+        if (err) { return next(err); }
+        res.send(item);
+    });
+}

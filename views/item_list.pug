@@ -3,9 +3,9 @@ extends layout
 block content
     h1= title
 
-    ul
-        each item in item_list
-            li
-                p #{item.name}
-        else
-            li There are no items.
+    ul#itemlistUl
+        
+    p#info
+    
+    script
+        include ../scripts/myScript.js
