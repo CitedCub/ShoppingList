@@ -88,9 +88,24 @@ exports.item_put = function (req, res, next) {
             _id: req.params.id // This is required, or a new ID will be assigned!
         });
 
-    console.log(item);
     Item.findByIdAndUpdate(req.params.id, item, {}, function (err, theitem) {
         if (err) { return next(err); }
         res.send(item);
+    });
+}
+
+exports.item_post = function (req, res, next) {
+
+    console.log('In item_post');
+    // Create an item instance object
+    var item = new Item(
+        {
+            name: req.body.name,
+            status: 'Available',
+        });
+
+    item.save(function (err) {
+        if (err) { return next(err) }
+        exports.items_get(req, res, next);
     });
 }

@@ -3,9 +3,13 @@ extends layout
 block content
     h1= title
 
+    div
+        label(for='name') Item name: 
+        input#addItemTxt(type='text', placeholder='Name of item', name='name')
+        button#addItemBtn(type='submit') Add Item
     ul#itemlistUl
         
     p#info
-    
+
     script
         include ../scripts/myScript.js

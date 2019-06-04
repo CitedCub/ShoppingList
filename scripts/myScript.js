@@ -6,6 +6,8 @@ initialize();
 // Sets up the app logic, declares required variables, contains all the other functions
 function initialize() {
 
+    var addItemTxt = document.querySelector('#addItemTxt')
+    var addItemBtn = document.querySelector('#addItemBtn');
     var itemlistUl = document.querySelector('#itemlistUl');
 
     fetch('http://localhost:3000/rest/items').then(function (response) {
@@ -63,4 +65,27 @@ function initialize() {
             });
         });
     }
+
+    let addItem = function () {
+        fetch('http://localhost:3000/rest/item/create',
+            {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'name': addItemTxt.value
+                })
+            }
+        ).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (json) {
+                    items = json;
+                    updateDisplay();
+                });
+            }
+        });
+    }
+
+    addItemBtn.onclick = addItem;
 }
