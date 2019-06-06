@@ -23,6 +23,17 @@ function initialize() {
         // Remove child nodes of ul element
         while (itemlistUl.firstChild)
             itemlistUl.removeChild(itemlistUl.lastChild);
+
+        // Sort items based on status
+        items.sort(function (a, b) {
+            if (a.status == b.status)
+                return 0;
+            else if (a.status == 'Available')
+                return -1;
+            else
+                return 1;
+        })
+
         // Add an li element with a p element for each item
         for (var i = 0; i < items.length; i++) {
             var li = document.createElement('li');
