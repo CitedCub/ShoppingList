@@ -15,4 +15,7 @@ router.post('/item/create', item_controller.item_post);
 // Update item
 router.put('/item/:id/update', item_controller.item_put);
 
+// Delete item
+router.delete('/item/:id/delete', item_controller.item_delete);
+
 module.exports = router;

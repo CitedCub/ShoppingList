@@ -109,3 +109,11 @@ exports.item_post = function (req, res, next) {
         exports.items_get(req, res, next);
     });
 }
+
+exports.item_delete = function (req, res, next) {
+    console.log('In item_delete');
+    Item.findByIdAndRemove(req.params.id, function deleteItem(err) {
+        if (err) { return next(err) }
+        exports.items_get(req, res, next);
+    })
+}

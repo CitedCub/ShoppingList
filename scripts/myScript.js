@@ -38,26 +38,46 @@ function initialize() {
         for (var i = 0; i < items.length; i++) {
             var li = document.createElement('li');
             var para = document.createElement('p');
+            para.id = 'item' + items[i]._id;
             para.innerText = items[i].name;
             li.appendChild(para);
-            var button = document.createElement('button');
-            button.innerText = items[i].status;
-            button.id = 'item' + items[i]._id;
-            button.onclick = toggleStatus;
-            para.appendChild(button);
+            var toggleStatusBtn = document.createElement('button');
+            toggleStatusBtn.innerText = items[i].status;
+            toggleStatusBtn.onclick = toggleStatus;
+            para.appendChild(toggleStatusBtn);
+            var deleteBtn = document.createElement('button');
+            deleteBtn.innerText = 'Delete';
+            deleteBtn.onclick = deleteItem;
+            para.appendChild(deleteBtn);
             itemlistUl.appendChild(li);
         }
         let info = document.querySelector('#info');
         info.innerText = JSON.stringify(items);
     }
 
+    let deleteItem = function () {
+        console.log(this.parentElement.id);
+        fetch('http://localhost:3000/rest/item/' + this.parentElement.id.slice(4) + '/delete',
+            {
+                method: 'DELETE'
+            }
+        ).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (json) {
+                    items = json;
+                    updateDisplay();
+                });
+            }
+        })
+    }
+
     let toggleStatus = function () {
         let that = this;
         // Get the item corresponding to the clicked button
         let item = items.find(function (element) {
-            return element._id == that.id.slice(4);
+            return element._id == that.parentElement.id.slice(4);
         });
-        fetch('http://localhost:3000/rest/item/' + this.id.slice(4) + '/update',
+        fetch('http://localhost:3000/rest/item/' + this.parentElement.id.slice(4) + '/update',
             {
                 method: 'PUT',
                 headers: {
@@ -68,9 +88,10 @@ function initialize() {
         ).then(function (response) {
             response.json().then(function (json) {
                 let index = items.findIndex(function (element) {
-                    return element._id == that.id.slice(4);
+                    return element._id == that.parentElement.id.slice(4);
                 });
                 console.log('Index: ' + index)
+                // Replace the old version of the item with the updated version
                 items.splice(index, 1, json);
                 updateDisplay();
             });
